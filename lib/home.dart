@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:attendence/add_staff/add_staff.dart';
+import 'package:attendence/classes.dart';
 
 void main() => runApp(home());
 
@@ -8,7 +10,7 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  bool _isDarkTheme = false;
+  bool _isDarkTheme = true;
 
   void toggleTheme(bool value) {
     setState(() {
@@ -40,11 +42,21 @@ class _homeState extends State<home> {
                   value: _isDarkTheme,
                   onChanged: toggleTheme,
                   activeTrackColor: Colors.grey[600],
-                  activeColor: Colors.white,
+                  activeThumbImage: AssetImage('assets/images/moon.png'),
+                  activeColor: Colors.transparent,
+                  inactiveThumbImage: AssetImage('assets/images/sun.png'),
+                  inactiveThumbColor: Colors.transparent,
                 ),
                 SizedBox(width: 5),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print(_isDarkTheme);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => add_staff(_isDarkTheme),
+                        ));
+                  },
                   icon: Icon(
                     Icons.add,
                     size: 25,
@@ -56,160 +68,91 @@ class _homeState extends State<home> {
           ),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: [
-              SizedBox(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor:
-                          _isDarkTheme ? Colors.white : Colors.black,
-                      radius: 25,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/ankit.jpg'),
-                        radius: 23,
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.separated(
+              itemCount: staff_data.length,
+              separatorBuilder: (context, index) => Divider(),
+              itemBuilder: (context, index) {
+                return SizedBox(
+                  height: 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CircleAvatar(
+                        backgroundColor:
+                            _isDarkTheme ? Colors.white : Colors.black,
+                        radius: 25,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(staff_data[index]['image']),
+                          radius: 23,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Ankit Rathod',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: _isDarkTheme ? Colors.white : Colors.black,
+                      SizedBox(
+                        width: 120,
+                        child: TextField(
+                          enabled: false,
+                          decoration: InputDecoration(
+                            labelText: staff_data[index]['name'],
+                            border: InputBorder.none,
+                            labelStyle: TextStyle(
+                              fontSize: 20,
+                              color: _isDarkTheme ? Colors.white : Colors.black,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    // ElevatedButton(
-                    //   onPressed: () {},
-                    //   child: Text('IN'),
-                    // ),
-                    Container(
-                      height: 35,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          gradient: _isDarkTheme
-                              ? LinearGradient(
-                                  colors: [Colors.white, Colors.white])
-                              : LinearGradient(colors: [
-                                  Colors.green,
-                                  Colors.green.shade800
-                                ]),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 5, color: Colors.grey)
-                          ]),
-                      child: Center(
-                          child: Text('IN',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: _isDarkTheme
-                                      ? Colors.black
-                                      : Colors.white))),
-                    ),
-                    Container(
-                      height: 35,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          gradient: _isDarkTheme
-                              ? LinearGradient(
-                                  colors: [Colors.white, Colors.white])
-                              : LinearGradient(
-                                  colors: [Colors.red, Colors.red.shade800]),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 5, color: Colors.grey)
-                          ]),
-                      child: Center(
-                          child: Text('OUT',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: _isDarkTheme
-                                      ? Colors.black
-                                      : Colors.white))),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CircleAvatar(
-                      backgroundColor:
-                          _isDarkTheme ? Colors.white : Colors.black,
-                      radius: 25,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/ritika.jpg'),
-                        radius: 23,
+                      Container(
+                        height: 35,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            gradient: _isDarkTheme
+                                ? LinearGradient(
+                                    colors: [Colors.white, Colors.white])
+                                : LinearGradient(colors: [
+                                    Colors.green,
+                                    Colors.green.shade800
+                                  ]),
+                            boxShadow: [
+                              BoxShadow(blurRadius: 5, color: Colors.grey)
+                            ]),
+                        child: Center(
+                            child: Text('IN',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: _isDarkTheme
+                                        ? Colors.black
+                                        : Colors.white))),
                       ),
-                    ),
-                    Text(
-                      'Ritika Masalia',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: _isDarkTheme ? Colors.white : Colors.black,
+                      Container(
+                        height: 35,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            gradient: _isDarkTheme
+                                ? LinearGradient(
+                                    colors: [Colors.white, Colors.white])
+                                : LinearGradient(
+                                    colors: [Colors.red, Colors.red.shade800]),
+                            boxShadow: [
+                              BoxShadow(blurRadius: 5, color: Colors.grey)
+                            ]),
+                        child: Center(
+                            child: Text('OUT',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: _isDarkTheme
+                                        ? Colors.black
+                                        : Colors.white))),
                       ),
-                    ),
-                    // ElevatedButton(
-                    //   onPressed: () {},
-                    //   child: Text('IN'),
-                    // ),
-                    Container(
-                      height: 35,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          gradient: _isDarkTheme
-                              ? LinearGradient(
-                                  colors: [Colors.white, Colors.white])
-                              : LinearGradient(colors: [
-                                  Colors.green,
-                                  Colors.green.shade800
-                                ]),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 5, color: Colors.grey)
-                          ]),
-                      child: Center(
-                          child: Text('IN',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: _isDarkTheme
-                                      ? Colors.black
-                                      : Colors.white))),
-                    ),
-                    Container(
-                      height: 35,
-                      width: 100,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          gradient: _isDarkTheme
-                              ? LinearGradient(
-                                  colors: [Colors.white, Colors.white])
-                              : LinearGradient(
-                                  colors: [Colors.red, Colors.red.shade800]),
-                          boxShadow: [
-                            BoxShadow(blurRadius: 5, color: Colors.grey)
-                          ]),
-                      child: Center(
-                          child: Text('OUT',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: _isDarkTheme
-                                      ? Colors.black
-                                      : Colors.white))),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+                    ],
+                  ),
+                );
+              },
+            )),
       ),
     );
   }
